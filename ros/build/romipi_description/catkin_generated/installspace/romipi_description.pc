@@ -1,0 +1,8 @@
+prefix=/home/student5/robotics/Florence/ros/install
+
+Name: romipi_description
+Description: Description of romipi_description
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: urdf xacro

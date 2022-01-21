@@ -1,0 +1,2 @@
+romipi_bringup:romipi_description
+-DCATKIN_DEVEL_PREFIX=/home/student5/robotics/Florence/ros/devel -DCMAKE_INSTALL_PREFIX=/home/student5/robotics/Florence/ros/install -G Unix Makefiles
