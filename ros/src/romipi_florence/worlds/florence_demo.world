@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+<!-- cafe_table construction_barrel drc_practice_blue_cylinder drc_practice_orange_jersey_barrier drc_practice_white_jersey_barrier construction_cone -->
+
+    <include>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+      <name>barrier_r1</name>
+      <pose>0.0 2.0 0.0 0.0 0.0 1.57</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_white_jersey_barrier</uri>
+      <name>barrier_r2</name>
+      <pose>2.0 2.0 0.0 0.0 0.0 1.57</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+      <name>barrier_r3</name>
+      <pose>4.0 2.0 0.0 0.0 0.0 1.57</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_white_jersey_barrier</uri>
+      <name>barrier_r4</name>
+      <pose>6.0 2.0 0.0 0.0 0.0 1.57</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+      <name>barrier_r5</name>
+      <pose>7.0 1.0 0.0 0.0 0.0 0.0</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_white_jersey_barrier</uri>
+      <name>barrier_r6</name>
+      <pose>7.0 -1.0 0.0 0.0 0.0 0.0</pose>
+      <static>1</static>
+    </include>
+    <!--include>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+      <name>barrier_r7</name>
+      <pose>7.0 -3.0 0.0 0.0 0.0 0.0</pose>
+      <static>1</static>
+    </include-->
+    
+    <include>
+      <uri>model://drc_practice_white_jersey_barrier</uri>
+      <name>barrier_l1</name>
+      <pose>0.0 -2.0 0.0 0.0 0.0 1.57</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+      <name>barrier_l2</name>
+      <pose>2.0 -2.0 0.0 0.0 0.0 1.57</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_white_jersey_barrier</uri>
+      <name>barrier_l3</name>
+      <pose>4.0 -2.0 0.0 0.0 0.0 1.57</pose>
+      <static>1</static>
+    </include>
+    <!--include>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+      <name>barrier_l4</name>
+      <pose>5.0 -3.0 0.0 0.0 0.0 0.0</pose>
+      <static>1</static>
+    </include-->
+    <include>
+      <uri>model://drc_practice_orange_jersey_barrier</uri>
+      <name>barrier_l4</name>
+      <pose>6.0 -8.0 0.0 0.0 0.0 0.0</pose>
+      <static>1</static>
+    </include>
+    
+    
+    <include>
+      <uri>model://construction_barrel</uri>
+      <name>barrel_1</name>
+      <pose>2.3 -1.5 0.0 0.0 0.0 -1.5706</pose>
+      <static>1</static>
+    </include>
+    <include>
+      <uri>model://drc_practice_blue_cylinder</uri>
+      <name>cylinder_1</name>
+      <pose>2.3 -3.0 0.0 0.0 0.0 -1.5706</pose>
+      <static>1</static>
+    </include>
+
+    <include>
+      <uri>model://construction_cone</uri>
+      <name>static_cone_1</name>
+      <pose>0.0 1.0 0 0 0 0</pose>
+      <static>1</static>
+    </include>
+  </world>
+</sdf>

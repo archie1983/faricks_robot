@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+
+<!-- simulate example robot with example controller in the challenge scenario -->
+
+<launch>
+
+  <include file="$(find romipi_fake)/launch/romipi_fake.launch" />
+
+  <!-- launch Gazebo in the Group Challenge world -->
+  <!-- use `roslaunch farscope_example_robot_simulate use_gui:=false` to turn off Gazebo GUI -->
+  <!-- use `roslaunch farscope_example_robot_simulate scenario:=<file>` to change scenario file -->
+  <!-- e.g. `scenario:=<$(find farscope_group_project)>/scenarios/all_no_random.yaml` all trophies, perfectly placed -->
+  <arg name="scenario_file" default="$(find romipi_florence)/scenarios/all_no_random.yaml" />
+  <arg name="use_gui" default="true" />
+  <include file="$(find romipi_florence)/launch/florence_demo.launch">
+    <arg name="gui" value="$(arg use_gui)" />
+    <arg name="scenario_file" value="$(arg scenario_file)" />
+  </include>
+
+  <!-- load the example robot description-->
+  <!--param name="robot_description" command="$(find xacro)/xacro $(find farscope_project_entry)/models/farscope_new_gripper_robot.urdf.xacro" /-->
+  
+  <!-- load Florence robot description instead of example robot description -->
+  <!-- param name="robot_description" command="$(find xacro)/xacro $(find farscope_project_entry)/models/florence.urdf.xacro" / -->
+
+  <!-- need a robot state publisher to translate joints into TF information -->
+  <!-- node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" /-->
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot" respawn="false" output="screen" />
+
+  <!-- start controllers for the UR10 arm - NOT NEEDED FOR FLORENCE FOR NOW -->
+  <!--include file="$(find farscope_group_project)/launch/common/ur10_controllers.launch" /-->
+
+  <!-- start controller for the gripper - you may need to edit here if you don't use the provided gripper - NOT NEEDED FOR FLORENCE FOR NOW -->
+  <!--include file="$(find farscope_group_project)/launch/common/gripper_controller.launch" /-->
+
+  <!-- Map server provided map source -->
+  <!--arg name="map_file" default="$(find farscope_project_entry)/maps/sim_map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="map"/>
+  </node-->
+
+  <!-- Hector mapping -->
+  <!-- include file="$(find farscope_project_entry)/launch/hector_mapping.launch" / -->
+  
+  <!-- AMCL localisation algorithm -->
+  <!-- include file="$(find farscope_project_entry)/launch/amcl.launch" /-->
+  
+  <!-- The path planning stuff -->
+  <!-- include file="$(find farscope_project_entry)/launch/path_plan_and_move_base.launch" / -->
+
+  <!-- Base controller -->
+  <!-- node name="robot_base_controller" pkg="farscope_project_entry" type="florence_base_controller.py" output="screen"/ -->
+
+</launch>

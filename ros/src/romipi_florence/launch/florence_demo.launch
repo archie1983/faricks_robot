@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+  <include file="$(find romipi_fake)/launch/romipi_fake.launch" />
+
+  <!-- launching gazebo -->
+  <arg name="paused" default="false" doc="Starts gazebo in paused mode" />
+  <arg name="gui" default="true" doc="Starts gazebo gui" />
+  <arg name="scenario_file" default="$(find romipi_florence)/scenarios/all_no_random.yaml" />
+
+  <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" default="$(find romipi_florence)/worlds/florence_demo.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot" respawn="false" output="screen" />
+
+  <!-- load scenario parameter -->
+  <!--rosparam command="load" file="$(arg scenario_file)" /-->
+
+  <!-- spawn SDF obstacle -->
+  <!-- <node name="spawn_gazebo_cone_1" pkg="gazebo_ros" type="spawn_model" args="-sdf -database construction_cone -model cone_1 -y -8" respawn="false" output="screen" /> -->
+  <!-- not in use -->
+
+</launch>
