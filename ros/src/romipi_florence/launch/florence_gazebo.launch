@@ -20,8 +20,9 @@
   </include>
 
   <!-- include file="$(find romipi_fake)/launch/romipi_fake.launch" / -->
-  <param name="robot_description" command="$(find xacro)/xacro $(find romipi_description)/urdf/romipi.urdf.xacro" />
+  <!-- param name="robot_description" command="$(find xacro)/xacro $(find romipi_description)/urdf/romipi.urdf.xacro" / -->
   <!-- param name="robot_description" command="$(find xacro)/xacro $(find romipi_description)/urdf/romipi.gazebo.xacro" / -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find romipi_florence)/urdf/florence_with_lidar.urdf.xacro" />
   
   
   

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot name="florence" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- mobile base -->
+  <!-- $(find farscope_group_project)/models/mobile_arm -->
+  <xacro:include filename="$(find romipi_description)/urdf/romipi.urdf.xacro" />
+
+  <!-- xacro:romipi / -->
+  
+  <!-- MAKE SURE THAT ROMIPI CAN BE INSTANTIATED AS A XACRO ENTITY, I.E. romipi.urdf.xacro CONTAINS A XACRO MACRO FOR romipi -->
+  
+  <!-- ****** LiDAR ****** -->
+  <xacro:include filename="ld06_lidar.xacro" />
+  
+  <!-- LIDAR -->
+  <xacro:ld06_lidar_device name="lidar_1" parent="base_link" ros_topic="lidar_1/scan_filtered">
+    <origin xyz="0.360 0 0.181" rpy="3.14 0 0" />
+  </xacro:ld06_lidar_device>
+</robot>
