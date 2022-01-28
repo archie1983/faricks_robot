@@ -14,7 +14,7 @@
   
   <!-- LIDAR -->
   <xacro:ld06_lidar_device name="lidar_1" parent="base_link" ros_topic="lidar_1/scan_filtered">
-    <origin xyz="0.360 0 0.181" rpy="3.14 0 0" />
+    <origin xyz="0.360 0 0.181" rpy="0 0 0" />
   </xacro:ld06_lidar_device>
   
   <!-- Lidar sensors -->

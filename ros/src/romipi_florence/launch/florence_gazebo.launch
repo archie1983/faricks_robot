@@ -2,7 +2,7 @@
 
 <launch>
   <arg name="model" default="romipi" doc="model type [burger, waffle, waffle_pi]"/>
-  <arg name="x_pos" default="-4.0"/>
+  <arg name="x_pos" default="-1.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
 
@@ -34,7 +34,7 @@
   
   <!-- node name="rviz" pkg="rviz" type="rviz" args="-d $(find romipi_gazebo)/rviz/romipi_gazebo_model.rviz" / -->
   <!-- node name="rviz" pkg="rviz" type="rviz" args="-d $(find romipi_description)/rviz/model.rviz" /-->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find romipi_fake)/rviz/romipi_fake.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find romipi_florence)/rviz/romipi_florence.rviz" />
   
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <!--node pkg="gazebo_ros" type="spawn_model" name="spawn_gazebo_model" args="-urdf -model robot  -param robot_description " respawn="false" output="screen" /-->
