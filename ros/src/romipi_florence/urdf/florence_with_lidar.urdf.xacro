@@ -6,8 +6,8 @@
   <xacro:include filename="$(find romipi_description)/urdf/romipi.urdf.xacro" />
 
   <!-- xacro:romipi / -->
-  
-  <!-- MAKE SURE THAT ROMIPI CAN BE INSTANTIATED AS A XACRO ENTITY, I.E. romipi.urdf.xacro CONTAINS A XACRO MACRO FOR romipi -->
+
+  <!-- CREATE A BRAND NEW URDF FILE FOR THIS PURPOSE FROM SCRATCH- USING romipi.urdf.xacro as base. AND THEN USE IT HERE AND FOR romipi_navigation. Othewise romipi_navigation has no Laser scan input -->
   
   <!-- ****** LiDAR ****** -->
   <xacro:include filename="ld06_lidar.xacro" />
