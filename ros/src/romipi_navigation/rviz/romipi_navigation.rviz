@@ -8,9 +8,8 @@ Panels:
         - /Status1
         - /Grid1
         - /Map1
-        - /Map1/Status1
         - /RobotModel1
-        - /RobotModel1/Status1
+        - /PoseArray1
       Splitter Ratio: 0.5
     Tree Height: 549
   - Class: rviz/Selection
@@ -31,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -95,6 +94,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        lidar_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         wheel_left_link:
           Alpha: 1
           Show Axes: false
@@ -111,6 +115,51 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /lidar_1/scan_filtered
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Arrow Length: 0.30000001192092896
+      Axes Length: 0.30000001192092896
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: PoseArray
+      Queue Size: 10
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
+      Shape: Arrow (Flat)
+      Topic: /particlecloud
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -139,7 +188,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10
+      Distance: 2.1368908882141113
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -147,17 +196,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: 0.9873554706573486
+        Y: 0.8012914061546326
+        Z: 1.3665719032287598
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.42539796233177185
+      Pitch: 0.9453965425491333
       Target Frame: <Fixed Frame>
-      Yaw: 3.823570489883423
+      Yaw: 2.938563346862793
     Saved: ~
 Window Geometry:
   Displays:
@@ -175,5 +224,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1267
-  X: 72
-  Y: 27
+  X: 307
+  Y: 95
