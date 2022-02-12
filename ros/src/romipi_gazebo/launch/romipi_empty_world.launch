@@ -1,5 +1,4 @@
 <launch>
-
   <arg name="model" default="romipi" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
@@ -12,7 +11,6 @@
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
-    <arg name="verbose" value="true"/>
   </include>
 
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find romipi_description)/urdf/romipi.urdf.xacro" />
