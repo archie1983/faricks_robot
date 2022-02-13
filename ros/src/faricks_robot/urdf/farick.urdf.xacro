@@ -56,6 +56,7 @@
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
     <origin xyz="${base_link_colision_l / 2.0 - wheel_radius} ${base_link_colision_w / 2.0 - 0.025} ${-wheel_radius * 2}" rpy="0 0 0" />
+    <axis xyz="0 1 0"/>
   </joint>
 
   <link name="wheel_left_link">
@@ -96,6 +97,7 @@
     <parent link="base_link"/>
     <child link="wheel_right_link"/>
     <origin xyz="${base_link_colision_l / 2.0 - wheel_radius} ${-base_link_colision_w / 2.0 + 0.025} ${-wheel_radius * 2}" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
   </joint>
 
   <link name="wheel_right_link">
@@ -129,12 +131,13 @@
       </inertial>
   </link>
 
-  <joint name="wheel_third_joint" type="fixed">
+  <joint name="wheel_third_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_third_link"/>
     <origin xyz="${-base_link_colision_l / 2.0 - wheel_radius} 0 ${-wheel_radius * 2}" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
   </joint>
-
+  
   <link name="wheel_third_link">
     <visual>
       <origin xyz="-0.0275 -0.1075 0.073" rpy="${-pi / 2} 0 0"/>
