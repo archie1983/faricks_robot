@@ -7,6 +7,10 @@
     <material>Gazebo/DarkGrey</material>
   </gazebo>
 
+  <gazebo reference="base_top_surface_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
   <gazebo reference="wheel_left_link">
     <mu1>0.1</mu1>
     <mu2>0.1</mu2>
@@ -104,7 +108,7 @@
   <!-- ****** cameras ****** -->
   <xacro:include filename="simple_camera.urdf.xacro" />
 
-  <xacro:simple_camera camera_name="camera1" parent_link="base_link" >
+  <xacro:simple_camera camera_name="camera1" parent_link="base_top_surface_link" >
     <origin xyz="0.03 0 0.06" rpy="0 0 0" />
   </xacro:simple_camera>
 
@@ -112,7 +116,7 @@
   <xacro:include filename="lidar.xacro" />
 
   <!-- LIDAR -->
-  <xacro:lidar_device name="base_scan" parent="base_link" ros_topic="base_scan/scan">
+  <xacro:lidar_device name="base_scan" parent="base_top_surface_link" ros_topic="base_scan/scan">
     <origin xyz="0.0 0.0 0.181" rpy="0 0 0" />
   </xacro:lidar_device>
 

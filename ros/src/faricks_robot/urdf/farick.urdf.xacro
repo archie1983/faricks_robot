@@ -4,22 +4,37 @@
   <xacro:include filename="$(find romipi_description)/urdf/romipi.gazebo.xacro"/>
 
   <xacro:property name="base_link_mass" value="0.6" />
-  <xacro:property name="base_link_colision_l" value="0.45" />
+  <xacro:property name="base_link_colision_l" value="0.31875" />
   <xacro:property name="base_link_colision_w" value="0.3" />
   <xacro:property name="base_link_colision_h" value="0.01" />
+
+  <xacro:property name="base_top_surface_link_mass" value="0.8" />
+  <xacro:property name="base_top_surface_link_colision_l" value="0.45" />
+  <xacro:property name="base_top_surface_link_colision_w" value="0.3" />
+  <xacro:property name="base_top_surface_link_colision_h" value="0.01" />
 
   <xacro:property name="wheel_mass" value="0.160" />
   <xacro:property name="wheel_width" value="0.06" />
   <xacro:property name="wheel_radius" value="0.06" />
 
+  <!-- Fork collision and inertial frame models -->
+  <xacro:property name="third_wheel_fork_mass" value="0.240" />
+  <xacro:property name="third_wheel_fork_l" value="0.240" />
+  <xacro:property name="third_wheel_fork_w" value="0.06" />
+  <xacro:property name="third_wheel_fork_h" value="0.01" />
+
+  <!-- Our STL files are too large, so we need to scale them down by this much -->
   <xacro:property name="stl_scale" value="0.001" />
+
+  <!-- rear wheel extra height -->
+  <xacro:property name="rw_xtra_h" value="0.023" />
 
   <link name="base_footprint"/>
 
   <joint name="base_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.25" rpy="0 0 0"/>
   </joint>
 
   <link name="base_link">
@@ -32,7 +47,7 @@
     </visual>
 
     <collision>
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <origin xyz="0.067 0.0 0.01" rpy="0 0 0"/>
       <geometry>
         <box size="${base_link_colision_l} ${base_link_colision_w} ${base_link_colision_h}"/>
       </geometry>
@@ -52,16 +67,54 @@
     </inertial>
   </link>
 
+  <!-- the top surface of the base -->
+  <joint name="base_top_surface_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_top_surface_link"/>
+    <origin xyz="0.0 0.0 0.05" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_top_surface_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 ${pi / 2}"/>
+      <geometry>
+        <mesh filename="package://faricks_robot/meshes/base.stl" scale="${stl_scale} ${stl_scale} ${stl_scale}"/>
+      </geometry>
+      <material name="light_black"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0.0 0.0 -0.005" rpy="0 0 0"/>
+      <geometry>
+        <box size="${base_top_surface_link_colision_l} ${base_top_surface_link_colision_w} ${base_top_surface_link_colision_h}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="0 0 0.0315" rpy="0 0 ${pi/2}"/>
+      <mass value="${base_top_surface_link_mass}" />
+      <!-- According to https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors
+      We want Ixx = (1/12) * m * (l^2 + h^2) = 0.068811253 * (0.05^2 + 0.1635^2) = 0.002011508 = 2.011508e-03
+              Iyy = (1/12) * m * (w^2 + h^2) = 0.068811253 * (0.145^2 + 0.1635^2) = 0.003286236 = 3.286236e-03
+              Izz = (1/12) * m * (w^2 + l^2) = 0.068811253 * (0.145^2 + 0.05^2) = 0.001618785 = 1.618785e-03
+              -->
+      <inertia ixx="${(1/12) * base_top_surface_link_mass * (base_top_surface_link_colision_l**2 + base_top_surface_link_colision_h**2)}" ixy="0" ixz="0"
+               iyy="${(1/12) * base_top_surface_link_mass * (base_top_surface_link_colision_w**2 + base_top_surface_link_colision_h**2)}" iyz="0"
+               izz="${(1/12) * base_top_surface_link_mass * (base_top_surface_link_colision_w**2 + base_top_surface_link_colision_l**2)}" />
+    </inertial>
+  </link>
+
+  <!-- left wheel -->
   <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
-    <origin xyz="${base_link_colision_l / 2.0 - wheel_radius} ${base_link_colision_w / 2.0 - 0.025} ${-wheel_radius * 2}" rpy="0 0 0" />
+    <origin xyz="${base_top_surface_link_colision_l / 2.0 - wheel_radius} ${base_top_surface_link_colision_w / 2.0 - 0.025} ${-wheel_radius * 2}" rpy="0 0 0" />
     <axis xyz="0 1 0"/>
   </joint>
 
   <link name="wheel_left_link">
     <visual>
-      <origin xyz="-0.0275 0.1075 -0.073" rpy="${pi / 2} 0 0"/>
+      <origin xyz="-0.0275 0.1075 ${-rw_xtra_h}" rpy="${pi / 2} 0 0"/>
       <geometry>
         <mesh filename="package://faricks_robot/meshes/wheel.stl" scale="${stl_scale} ${stl_scale} ${stl_scale}"/>
       </geometry>
@@ -69,14 +122,14 @@
     </visual>
 
     <collision>
-      <origin xyz="0 0 0" rpy="1.57 0 0"/>
+      <origin xyz="0 0 0.05" rpy="${pi / 2} 0 0"/>
       <geometry>
         <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
     </collision>
 
     <inertial>
-      <origin xyz="0 0 0" rpy="1.57 0 0"/>
+      <origin xyz="0 0 0.05" rpy="${pi / 2} 0 0"/>
       <geometry>
         <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
@@ -96,13 +149,13 @@
   <joint name="wheel_right_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_right_link"/>
-    <origin xyz="${base_link_colision_l / 2.0 - wheel_radius} ${-base_link_colision_w / 2.0 + 0.025} ${-wheel_radius * 2}" rpy="0 0 0"/>
+    <origin xyz="${base_top_surface_link_colision_l / 2.0 - wheel_radius} ${-base_top_surface_link_colision_w / 2.0 + 0.025} ${-wheel_radius * 2}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
 
   <link name="wheel_right_link">
     <visual>
-      <origin xyz="-0.0275 -0.1075 0.073" rpy="${-pi / 2} 0 0"/>
+      <origin xyz="0.0275 -0.1075 ${-rw_xtra_h}" rpy="${pi / 2} 0 ${pi}"/>
       <geometry>
         <mesh filename="package://faricks_robot/meshes/wheel.stl" scale="${stl_scale} ${stl_scale} ${stl_scale}"/>
       </geometry>
@@ -110,14 +163,14 @@
     </visual>
 
     <collision>
-      <origin xyz="0 0 0" rpy="1.57 0 0"/>
+      <origin xyz="0 0 0.05" rpy="${pi/2} 0 0"/>
       <geometry>
         <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
     </collision>
 
     <inertial>
-      <origin xyz="0 0 0" rpy="1.57 0 0"/>
+      <origin xyz="0 0 0.05" rpy="${pi/2} 0 0"/>
       <mass value="${wheel_mass}" />
       
       <!-- According to https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors 
@@ -131,16 +184,70 @@
       </inertial>
   </link>
 
+  <!-- Third wheel fork -->
+  <joint name="third_wheel_fork_joint" type="revolute">
+    <parent link="base_top_surface_link"/>
+    <child link="third_wheel_fork_link"/>
+    <origin xyz="${-base_top_surface_link_colision_l / 2.0} 0 0" rpy="0 0 0"/>
+    <limit lower="${-pi / 2.0}" upper="${pi / 2.0}" effort="30" velocity="${2 * pi}"/> <!-- Assuming that the steering servo can do 1 full revolution in a second-->
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="third_wheel_fork_link">
+    <visual>
+      <origin xyz="${2 * wheel_radius} 0.0325 ${-wheel_radius * 2 - 0.04}" rpy="${pi / 2} 0 ${-pi / 2}"/>
+      <geometry>
+        <mesh filename="package://faricks_robot/meshes/third_wheel_fork.stl" scale="${stl_scale} ${stl_scale} ${stl_scale}"/>
+      </geometry>
+      <material name="dark"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 ${pi / 2} 0"/>
+      <geometry>
+        <box size="${third_wheel_fork_l} ${third_wheel_fork_w} ${third_wheel_fork_h}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="1.57 0 0"/>
+      <mass value="${third_wheel_fork_mass}" />
+      <!-- According to https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors
+      We want Ixx = (1/12) * m * (l^2 + h^2) = 0.068811253 * (0.05^2 + 0.1635^2) = 0.002011508 = 2.011508e-03
+              Iyy = (1/12) * m * (w^2 + h^2) = 0.068811253 * (0.145^2 + 0.1635^2) = 0.003286236 = 3.286236e-03
+              Izz = (1/12) * m * (w^2 + l^2) = 0.068811253 * (0.145^2 + 0.05^2) = 0.001618785 = 1.618785e-03
+              -->
+      <inertia ixx="${(1/12) * third_wheel_fork_mass * (third_wheel_fork_l**2 + third_wheel_fork_h**2)}" ixy="0" ixz="0"
+               iyy="${(1/12) * third_wheel_fork_mass * (third_wheel_fork_w**2 + third_wheel_fork_h**2)}" iyz="0"
+               izz="${(1/12) * third_wheel_fork_mass * (third_wheel_fork_w**2 + third_wheel_fork_l**2)}" />
+      </inertial>
+  </link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <joint name="wheel_third_joint" type="continuous">
-    <parent link="base_link"/>
+    <parent link="third_wheel_fork_link"/>
     <child link="wheel_third_link"/>
-    <origin xyz="${-base_link_colision_l / 2.0 - wheel_radius} 0 ${-wheel_radius * 2}" rpy="0 0 0"/>
+    <origin xyz="0 0 -0.180" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
-  
+
   <link name="wheel_third_link">
     <visual>
-      <origin xyz="-0.0275 -0.1075 0.073" rpy="${-pi / 2} 0 0"/>
+      <origin xyz="-0.0075 0.109 -0.01" rpy="${pi / 2} 0 0"/>
       <geometry>
         <mesh filename="package://faricks_robot/meshes/wheel.stl" scale="${stl_scale} ${stl_scale} ${stl_scale}"/>
       </geometry>
@@ -148,14 +255,14 @@
     </visual>
 
     <collision>
-      <origin xyz="0 0 0" rpy="1.57 0 0"/>
+      <origin xyz="0.02 0 0.06225" rpy="${pi / 2} 0 0"/>
       <geometry>
         <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
       </geometry>
     </collision>
 
     <inertial>
-      <origin xyz="0 0 0" rpy="1.57 0 0"/>
+      <origin xyz="0.02 0 0.06225" rpy="${pi / 2} 0 0"/>
       <mass value="${wheel_mass}" />
 
       <!-- According to https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors
@@ -168,6 +275,24 @@
                izz="${(1/2) * wheel_mass * wheel_radius**2}" />
       </inertial>
   </link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
